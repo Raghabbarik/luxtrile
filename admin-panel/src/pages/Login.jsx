@@ -14,7 +14,7 @@ export default function Login({ setIsAuthenticated }) {
 
     try {
       const response = await api.post('/auth/login', { email, password });
-      const { token, user } = response.data.data;
+      const { token, user } = response.data;
 
       if (user.role !== 'admin') {
         setError('Access denied. Admin credentials required.');

@@ -32,7 +32,7 @@ A production-ready multi-role salon appointment booking platform built with Reac
 
 - **Frontend**: React Native (Android)
 - **Backend**: Node.js + Express
-- **Database**: MongoDB
+- **Database**: PostgreSQL
 - **Authentication**: JWT
 - **Payments**: Razorpay
 - **Maps**: Google Maps API
@@ -46,7 +46,7 @@ A production-ready multi-role salon appointment booking platform built with Reac
 - Node.js >= 18
 - Android Studio
 - JDK 11 or higher
-- MongoDB
+- PostgreSQL
 
 ### Installation
 

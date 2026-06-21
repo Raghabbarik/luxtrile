@@ -6,6 +6,10 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        inter: ['Inter', 'sans-serif'],
+        outfit: ['Outfit', 'sans-serif'],
+      },
       colors: {
         gold: {
           50: '#FFFBEB',
@@ -19,8 +23,32 @@ export default {
           800: '#92400E',
           900: '#78350F',
         },
+        obsidian: {
+          800: '#1a1a24',
+          900: '#0f0f14',
+          950: '#0a0a0f',
+        }
       },
+      animation: {
+        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'float': 'float 6s ease-in-out infinite',
+      },
+      keyframes: {
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
+        }
+      }
     },
   },
+  safelist: [
+    'from-gold-400',
+    'to-gold-600',
+    'bg-gold-500',
+    'text-gold-500',
+    'hover:bg-gold-600',
+    'shadow-gold-500/20',
+    'border-gold-500/50',
+  ],
   plugins: [],
 }
