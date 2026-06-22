@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "836001145607-jcjg85lnqnj1c4pn9cerk9fcpfrqevmu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lustrilapp.app",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "836001145607-qsthe5ndmre1vg8mhb3ovpunjnc4n8h9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lustrilapp.app",
+            "certificate_hash": "9399277b2a924fb63b6885b751e73c7e61385d4d"
+          }
+        },
+        {
           "client_id": "836001145607-olt09726n6amkj0c2dji1d3698gupn8u.apps.googleusercontent.com",
           "client_type": 3
         }
