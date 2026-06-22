@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -8,8 +8,8 @@ import {
   Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import auth from '@react-native-firebase/auth';
 import {colors} from '../../theme/colors';
-import {authService} from '../../services/authService';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Header from '../../components/Header';
@@ -26,22 +26,27 @@ const ForgotPasswordScreen = ({navigation}) => {
 
     setLoading(true);
     try {
-      const response = await authService.forgotPassword(email);
+      await auth().sendPasswordResetEmail(email.trim().toLowerCase());
       Alert.alert(
-        'Success',
-        'Password reset instructions have been sent to your email',
+        'Email Sent',
+        'Password reset email has been sent to your inbox. Check your email and follow the link to reset your password.',
         [
           {
             text: 'OK',
-            onPress: () => navigation.navigate('ResetPassword'),
+            onPress: () => navigation.navigate('Login'),
           },
         ],
       );
     } catch (error) {
-      Alert.alert(
-        'Error',
-        error.response?.data?.message || 'Failed to send reset email',
-      );
+      let message = 'Failed to send reset email';
+      if (error.code === 'auth/user-not-found') {
+        message = 'No account found with this email address';
+      } else if (error.code === 'auth/invalid-email') {
+        message = 'Invalid email address';
+      } else if (error.message) {
+        message = error.message;
+      }
+      Alert.alert('Error', message);
     } finally {
       setLoading(false);
     }
@@ -66,8 +71,8 @@ const ForgotPasswordScreen = ({navigation}) => {
                 Reset Password
               </Text>
               <Text className="text-text-secondary text-center">
-                Enter your email address and we'll send you instructions to
-                reset your password
+                Enter your email address and we'll send you a link to reset your
+                password
               </Text>
             </View>
 

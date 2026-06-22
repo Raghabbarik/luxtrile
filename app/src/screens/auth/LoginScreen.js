@@ -16,7 +16,7 @@ import Button from '../../components/Button';
 import { colors } from '../../theme/colors';
 
 const LoginScreen = ({ navigation, route }) => {
-  const { login } = useAuth();
+  const { login, signInWithGoogle } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -33,6 +33,16 @@ const LoginScreen = ({ navigation, route }) => {
 
     if (!result.success) {
       Alert.alert('Login Failed', result.message);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    setLoading(true);
+    const result = await signInWithGoogle();
+    setLoading(false);
+
+    if (!result.success) {
+      Alert.alert('Google Sign-In Failed', result.message);
     }
   };
 
@@ -124,6 +134,23 @@ const LoginScreen = ({ navigation, route }) => {
                 loading={loading}
                 style={{ marginTop: 24 }}
               />
+
+              <View className="flex-row items-center my-4">
+                <View className="flex-1 h-[1px] bg-dark-light/20" />
+                <Text className="text-text-tertiary text-xs mx-4">OR</Text>
+                <View className="flex-1 h-[1px] bg-dark-light/20" />
+              </View>
+
+              <TouchableOpacity
+                onPress={handleGoogleSignIn}
+                disabled={loading}
+                className="flex-row items-center justify-center p-3.5 rounded-2xl border border-dark-light/20 bg-dark-light/5"
+                style={{ marginTop: 8 }}>
+                <Icon name="logo-google" size={20} color="#EA4335" style={{ marginRight: 8 }} />
+                <Text className="text-white text-base font-semibold">
+                  Sign in with Google
+                </Text>
+              </TouchableOpacity>
 
               <View className="mt-8 pt-6 border-t border-dark-light">
                 <TouchableOpacity 

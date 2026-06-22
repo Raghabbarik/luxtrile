@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -8,20 +8,19 @@ import {
   Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import auth from '@react-native-firebase/auth';
 import {colors} from '../../theme/colors';
-import {authService} from '../../services/authService';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Header from '../../components/Header';
 
 const ResetPasswordScreen = ({navigation}) => {
-  const [resetToken, setResetToken] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
-    if (!resetToken || !password || !confirmPassword) {
+    if (!password || !confirmPassword) {
       Alert.alert('Error', 'Please fill in all fields');
       return;
     }
@@ -38,18 +37,32 @@ const ResetPasswordScreen = ({navigation}) => {
 
     setLoading(true);
     try {
-      await authService.resetPassword(resetToken, password);
-      Alert.alert('Success', 'Password reset successful', [
+      const currentUser = auth().currentUser;
+      if (!currentUser) {
+        Alert.alert(
+          'Error',
+          'You must be logged in to change your password. Please use Forgot Password to get a reset link.',
+        );
+        return;
+      }
+      await currentUser.updatePassword(password);
+      Alert.alert('Success', 'Password changed successfully', [
         {
           text: 'OK',
-          onPress: () => navigation.navigate('Login'),
+          onPress: () => navigation.goBack(),
         },
       ]);
     } catch (error) {
-      Alert.alert(
-        'Error',
-        error.response?.data?.message || 'Failed to reset password',
-      );
+      let message = 'Failed to reset password';
+      if (error.code === 'auth/weak-password') {
+        message = 'Password is too weak. Use at least 6 characters.';
+      } else if (error.code === 'auth/requires-recent-login') {
+        message =
+          'Please log out and log back in before changing your password.';
+      } else if (error.message) {
+        message = error.message;
+      }
+      Alert.alert('Error', message);
     } finally {
       setLoading(false);
     }
@@ -57,7 +70,7 @@ const ResetPasswordScreen = ({navigation}) => {
 
   return (
     <View className="flex-1 bg-dark-primary">
-      <Header title="Reset Password" showBack />
+      <Header title="Change Password" showBack />
 
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -71,10 +84,10 @@ const ResetPasswordScreen = ({navigation}) => {
                 <Icon name="key" size={48} color={colors.gold.primary} />
               </View>
               <Text className="text-white text-2xl font-bold mb-2">
-                Create New Password
+                New Password
               </Text>
               <Text className="text-text-secondary text-center">
-                Enter the reset token from your email and create a new password
+                Enter and confirm your new password below
               </Text>
             </View>
 
@@ -82,22 +95,12 @@ const ResetPasswordScreen = ({navigation}) => {
               className="p-6 rounded-[32px] border-[1px] border-dark-light/10"
               style={{backgroundColor: 'rgba(28, 28, 30, 0.4)'}}>
               <Input
-                label="Reset Token"
-                value={resetToken}
-                onChangeText={setResetToken}
-                placeholder="Enter token from email"
-                icon="shield-checkmark-outline"
-                autoCapitalize="none"
-              />
-
-              <Input
                 label="New Password"
                 value={password}
                 onChangeText={setPassword}
                 placeholder="••••••••"
                 secureTextEntry
                 icon="lock-closed-outline"
-                style={{marginTop: 16}}
               />
 
               <Input
@@ -111,7 +114,7 @@ const ResetPasswordScreen = ({navigation}) => {
               />
 
               <Button
-                title="Reset Password"
+                title="Change Password"
                 onPress={handleSubmit}
                 loading={loading}
                 style={{marginTop: 24}}

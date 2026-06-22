@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "836001145607",
+    "project_id": "luxtril-6ced8",
+    "storage_bucket": "luxtril-6ced8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:836001145607:android:d3024e6960663a70639ba2",
+        "android_client_info": {
+          "package_name": "com.lustrilapp.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "836001145607-olt09726n6amkj0c2dji1d3698gupn8u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbgnmydDaVKOQBa_6YmohlrQwBArvGSik"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "836001145607-olt09726n6amkj0c2dji1d3698gupn8u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
